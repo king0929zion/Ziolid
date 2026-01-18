@@ -1859,6 +1859,7 @@ class ComposeMessageFragment : Fragment(R.layout.fragment_discussion_compose), O
             directAttachVoiceMessageImageView?.isGone = true
             sendButton?.isEnabled =
                 (hasAttachments || composeMessageViewModel.trimmedNewMessageText != null || recording) && !identicalEditMessage()
+            sendButton?.alpha = if (sendButton?.isEnabled == true) 1f else 0.45f
         }
         val attachIconsGroupParams = attachIconsGroup.layoutParams as LayoutParams
         // depending on the state, pick the appropriate layout:

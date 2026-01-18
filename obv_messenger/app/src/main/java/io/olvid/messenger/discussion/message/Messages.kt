@@ -80,7 +80,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -93,6 +95,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -292,7 +295,17 @@ fun Message(
     onMessageGloballyPositioned: ((LayoutCoordinates) -> Unit)? = null,
 ) {
     Box(modifier) {
-        val maxWidth = 400.dp
+        val maxWidth = dimensionResource(R.dimen.imessage_message_max_width)
+        val bubbleCornerRadius = dimensionResource(R.dimen.imessage_bubble_corner_radius)
+        val bubbleShape = RoundedCornerShape(bubbleCornerRadius)
+        val outboundBubbleBrush = Brush.linearGradient(
+            colors = listOf(
+                colorResource(id = R.color.imessage_blue_light),
+                colorResource(id = R.color.imessage_blue)
+            ),
+            start = Offset(0f, 0f),
+            end = Offset(600f, 600f)
+        )
         var enableSwipe by remember { mutableStateOf(true) }
         SwipeForActionBox(
             modifier = if (fullWidth) Modifier.fillMaxWidth() else Modifier,
@@ -404,15 +417,22 @@ fun Message(
                                     Modifier.onGloballyPositioned(it)
                                 } ?: Modifier
                             )
-                            .background(
-                                color = if (message.isInbound) colorResource(id = R.color.imessage_received_background)
-                                else if (message.messageType == Message.TYPE_OUTBOUND_MESSAGE) colorResource(
-                                    id = R.color.imessage_sent_background
-                                )
-                                else Color.Transparent,
-                                shape = RoundedCornerShape(20.dp)
+                            .then(
+                                if (message.isInbound) {
+                                    Modifier.background(
+                                        color = colorResource(id = R.color.imessage_received_background),
+                                        shape = bubbleShape
+                                    )
+                                } else if (message.messageType == Message.TYPE_OUTBOUND_MESSAGE) {
+                                    Modifier.background(
+                                        brush = outboundBubbleBrush,
+                                        shape = bubbleShape
+                                    )
+                                } else {
+                                    Modifier
+                                }
                             )
-                            .clip(RoundedCornerShape(20.dp))
+                            .clip(bubbleShape)
                             .combinedClickable(
                                 interactionSource = interactionSource,
                                 indication = ripple(),
@@ -453,7 +473,10 @@ fun Message(
                                 if (message.isPollMessage) {
                                     Modifier.padding(top = 6.dp, start = 6.dp, end = 6.dp)
                                 } else {
-                                    Modifier.padding(6.dp)
+                                    Modifier.padding(
+                                        horizontal = dimensionResource(R.dimen.imessage_bubble_padding_horizontal),
+                                        vertical = dimensionResource(R.dimen.imessage_bubble_padding_vertical)
+                                    )
                                 }
                             ),
                         noAutoWidth = message.hasAttachments() || message.isLocationMessage || message.isPollMessage
@@ -753,10 +776,12 @@ private fun MessageFooter(
         Spacer(modifier = Modifier.weight(1f, true))
 
         // timestamp
+        val timeFontSize =
+            with(LocalDensity.current) { dimensionResource(R.dimen.imessage_time_font_size).toSp() }
         Text(
             text = StringUtils.getLongNiceDateString(context, message.timestamp).toString(),
-            style = OlvidTypography.subtitle1,
-            color = Color(0xCC7D7D7D)
+            style = OlvidTypography.subtitle1.copy(fontSize = timeFontSize),
+            color = colorResource(R.color.imessage_tab_bar_unselected).copy(alpha = 0.9f)
         )
         // outbound status
         OutboundMessageStatus(modifier = Modifier.padding(start = 4.dp), message = message)

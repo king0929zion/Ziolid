@@ -59,7 +59,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -114,6 +116,9 @@ fun DiscussionListItem(
     lastOutboundMessageStatus: @Composable (() -> Unit)? = null,
     lastOutboundMessageStatusWidth: TextUnit = 0.sp,
 ) {
+    val avatarSize = dimensionResource(R.dimen.imessage_avatar_size)
+    val timeFontSize =
+        with(LocalDensity.current) { dimensionResource(R.dimen.imessage_time_font_size).toSp() }
     Box(
         modifier = modifier
     ) {
@@ -156,12 +161,12 @@ fun DiscussionListItem(
             InitialView(
                 modifier = Modifier
                     .padding(
-                        top = 12.dp,
-                        start = 8.dp,
+                        top = 10.dp,
+                        start = 12.dp,
                         end = 12.dp,
-                        bottom = 12.dp
+                        bottom = 10.dp
                     )
-                    .requiredSize(56.dp),
+                    .requiredSize(avatarSize),
                 initialViewSetup = initialViewSetup,
                 selected = selected,
                 unreadMessages = unreadCount > 0 || unread,
@@ -187,6 +192,19 @@ fun DiscussionListItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
+
+                    // Date (iMessage-like, top-right)
+                    date?.let { dateText ->
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 8.dp, top = 2.dp, end = 6.dp),
+                            text = dateText,
+                            color = colorResource(R.color.imessage_tab_bar_unselected).copy(alpha = 0.9f),
+                            style = OlvidTypography.subtitle1.copy(fontSize = timeFontSize),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
 
                     // information
                     Row(
@@ -327,17 +345,6 @@ fun DiscussionListItem(
                         }
                     }
 
-                    // Date
-                    date?.let {
-                        Text(
-                            modifier = Modifier.align(Alignment.Bottom),
-                            text = date,
-                            color = colorResource(id = R.color.grey),
-                            style = OlvidTypography.subtitle1,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
                 }
 
             }

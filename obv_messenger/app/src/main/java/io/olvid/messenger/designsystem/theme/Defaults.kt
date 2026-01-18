@@ -38,11 +38,11 @@ import io.olvid.messenger.discussion.message.attachments.constantSp
 
 @Composable
 fun olvidDefaultTextFieldColors() = TextFieldDefaults.colors(
-    cursorColor = colorResource(R.color.olvid_gradient_light),
+    cursorColor = colorResource(R.color.imessage_blue),
     focusedTextColor = colorResource(R.color.almostBlack),
     focusedContainerColor = Color.Transparent,
-    focusedLabelColor = colorResource(R.color.olvid_gradient_light),
-    focusedIndicatorColor = colorResource(R.color.olvid_gradient_light),
+    focusedLabelColor = colorResource(R.color.imessage_blue),
+    focusedIndicatorColor = colorResource(R.color.imessage_blue),
     unfocusedTextColor = colorResource(R.color.almostBlack),
     unfocusedContainerColor = Color.Transparent,
     unfocusedLabelColor = colorResource(R.color.greyTint),
@@ -65,11 +65,11 @@ fun olvidDefaultTextFieldColors() = TextFieldDefaults.colors(
 
 @Composable
 fun olvidGreyBackgroundTextFieldColors() = TextFieldDefaults.colors(
-    cursorColor = colorResource(R.color.olvid_gradient_light),
+    cursorColor = colorResource(R.color.imessage_blue),
     focusedTextColor = colorResource(R.color.almostBlack),
     focusedContainerColor = colorResource(R.color.lighterGrey),
     focusedLabelColor = Color.Transparent,
-    focusedIndicatorColor = colorResource(R.color.olvid_gradient_light),
+    focusedIndicatorColor = colorResource(R.color.imessage_blue),
     unfocusedTextColor = colorResource(R.color.almostBlack),
     unfocusedContainerColor = colorResource(R.color.lighterGrey),
     unfocusedLabelColor = Color.Transparent,
@@ -94,11 +94,11 @@ fun olvidGreyBackgroundTextFieldColors() = TextFieldDefaults.colors(
 fun olvidSwitchDefaults() = SwitchDefaults.colors(
     uncheckedTrackColor = colorResource(R.color.almostWhite),
     uncheckedBorderColor = colorResource(R.color.darkGrey),
-    checkedTrackColor = colorResource(R.color.olvid_gradient_light),
-    checkedBorderColor = colorResource(R.color.olvid_gradient_light),
+    checkedTrackColor = colorResource(R.color.imessage_blue),
+    checkedBorderColor = colorResource(R.color.imessage_blue),
     checkedThumbColor = colorResource(R.color.alwaysWhite),
     uncheckedThumbColor = colorResource(R.color.greyTint),
-    checkedIconColor = colorResource(R.color.olvid_gradient_light),
+    checkedIconColor = colorResource(R.color.imessage_blue),
     uncheckedIconColor = colorResource(R.color.almostWhite),
 )
 
@@ -112,13 +112,13 @@ fun olvidDatePickerDefaults() = DatePickerDefaults.colors(
     subheadContentColor = colorResource(R.color.almostBlack),
     dayContentColor = colorResource(R.color.almostBlack),
     dayInSelectionRangeContentColor = colorResource(R.color.alwaysWhite),
-    dayInSelectionRangeContainerColor = colorResource(R.color.olvid_gradient_light),
-    selectedYearContainerColor = colorResource(R.color.olvid_gradient_light),
+    dayInSelectionRangeContainerColor = colorResource(R.color.imessage_blue),
+    selectedYearContainerColor = colorResource(R.color.imessage_blue),
     selectedYearContentColor = colorResource(R.color.alwaysWhite),
     yearContentColor = colorResource(R.color.almostBlack),
-    selectedDayContainerColor = colorResource(R.color.olvid_gradient_light),
+    selectedDayContainerColor = colorResource(R.color.imessage_blue),
     selectedDayContentColor = colorResource(R.color.alwaysWhite),
-    todayContentColor = colorResource(R.color.olvid_gradient_light),
+    todayContentColor = colorResource(R.color.imessage_blue),
     navigationContentColor = colorResource(R.color.almostBlack),
     todayDateBorderColor = Color.Transparent,
     disabledYearContentColor = colorResource(R.color.mediumGrey),
@@ -131,12 +131,12 @@ fun olvidDatePickerDefaults() = DatePickerDefaults.colors(
 fun olvidTimeInputDefaults() = TimePickerDefaults.colors(
     selectorColor = colorResource(R.color.almostBlack),
     containerColor = Color.Transparent,
-    timeSelectorSelectedContainerColor = colorResource(R.color.olvid_gradient_light),
+    timeSelectorSelectedContainerColor = colorResource(R.color.imessage_blue),
     timeSelectorSelectedContentColor = colorResource(R.color.alwaysWhite),
     timeSelectorUnselectedContainerColor = colorResource(R.color.lightGrey),
     timeSelectorUnselectedContentColor = colorResource(R.color.almostBlack),
     periodSelectorBorderColor = colorResource(R.color.transparent),
-    periodSelectorSelectedContainerColor = colorResource(R.color.olvid_gradient_light),
+    periodSelectorSelectedContainerColor = colorResource(R.color.imessage_blue),
     periodSelectorSelectedContentColor = colorResource(R.color.alwaysWhite),
     periodSelectorUnselectedContainerColor = colorResource(R.color.lightGrey),
     periodSelectorUnselectedContentColor = colorResource(R.color.almostBlack),
