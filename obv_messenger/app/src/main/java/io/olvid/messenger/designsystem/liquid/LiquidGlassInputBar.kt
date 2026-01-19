@@ -141,7 +141,7 @@ fun LiquidGlassInputBar(
                     modifier = Modifier.size(36.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_attachment),
+                        painter = painterResource(id = R.drawable.ic_attach_add),
                         contentDescription = "Attachment",
                         tint = colors.accent,
                         modifier = Modifier.size(24.dp)
@@ -156,7 +156,7 @@ fun LiquidGlassInputBar(
                     modifier = Modifier.size(36.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_camera),
+                        painter = painterResource(id = R.drawable.ic_attach_camera),
                         contentDescription = "Camera",
                         tint = colors.accent,
                         modifier = Modifier.size(24.dp)

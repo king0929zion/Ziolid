@@ -192,7 +192,7 @@ fun LiquidGlassConversationItem(
                         // Pin icon
                         if (isPinned) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_pin),
+                                painter = painterResource(id = R.drawable.ic_pinned),
                                 contentDescription = "Pinned",
                                 tint = colors.accent,
                                 modifier = Modifier.size(14.dp)
@@ -257,7 +257,7 @@ fun LiquidGlassConversationItem(
                     // Muted icon
                     if (isMuted) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_bell_off),
+                            painter = painterResource(id = R.drawable.ic_notification_muted_filled),
                             contentDescription = "Muted",
                             tint = colors.textTertiary,
                             modifier = Modifier
