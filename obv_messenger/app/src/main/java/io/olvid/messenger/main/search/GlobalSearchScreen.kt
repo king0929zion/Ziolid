@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,6 +50,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.material.ripple
 import androidx.compose.runtime.Composable
@@ -61,6 +63,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -167,14 +170,28 @@ fun GlobalSearchScreen(
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
             ScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
-                backgroundColor = colorResource(id = R.color.almostWhite),
-                contentColor = colorResource(id = R.color.almostBlack),
+                backgroundColor = colorResource(id = R.color.imessage_tab_bar_bg),
+                contentColor = colorResource(id = R.color.imessage_tab_bar_unselected),
+                divider = {},
+                indicator = { tabPositions ->
+                    val currentTabPosition = tabPositions[pagerState.currentPage]
+                    Box(
+                        modifier = Modifier
+                            .tabIndicatorOffset(currentTabPosition)
+                            .fillMaxHeight()
+                            .padding(vertical = 6.dp, horizontal = 6.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(colorResource(R.color.imessage_blue).copy(alpha = 0.14f))
+                    )
+                },
                 edgePadding = 0.dp
             ) {
                 pages.forEachIndexed { index, page ->
                     CustomTab(
                         selected = pagerState.currentPage == index,
                         horizontalTextPadding = 8.dp,
+                        selectedContentColor = colorResource(id = R.color.imessage_blue),
+                        unselectedContentColor = colorResource(id = R.color.imessage_tab_bar_unselected),
                         onClick = {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(index)
