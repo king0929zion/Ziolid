@@ -310,7 +310,7 @@ fun FreeFeatures() {
         FeatureItem(
             text = stringResource(id = R.string.text_feature_create_groups),
             icon = R.drawable.ic_group,
-            iconTint = colorResource(id = R.color.olvid_gradient_light),
+            iconTint = colorResource(id = R.color.imessage_blue),
             activated = true
         )
         FeatureItem(

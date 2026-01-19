@@ -54,7 +54,7 @@ fun SubscriptionUpdatedDialog(
                 modifier = Modifier.padding(16.dp),
                 text = stringResource(id = R.string.dialog_title_subscription_updated),
                 style = OlvidTypography.h2,
-                color = colorResource(R.color.olvid_gradient_light)
+                color = colorResource(R.color.imessage_blue)
             )
 
             SubscriptionStatusScreen(
