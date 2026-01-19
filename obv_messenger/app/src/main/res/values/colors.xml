@@ -81,6 +81,9 @@
     <color name="imessage_sent_background">#007AFF</color>
     <color name="imessage_received_background">#E5E5EA</color>
 
+    <!-- Liquid Glass (iOS 26-style) -->
+    <color name="liquid_glass_background">#99FFFFFF</color>
+
     <!-- Liquid Glass colors -->
     <color name="liquid_glass_day">#99FFFFFF</color>
     <color name="liquid_glass_night">#99000000</color>
