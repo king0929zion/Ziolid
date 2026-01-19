@@ -887,7 +887,7 @@ class DiscussionActivity : LockableActivity(), OnClickListener, AttachmentLongCl
                                                     )
                                                     .background(
                                                         if (selectedMessageIds?.contains(message.id) == true)
-                                                            colorResource(id = R.color.olvid_gradient_light)
+                                                            colorResource(id = R.color.imessage_blue)
                                                         else
                                                             Color.Transparent
                                                     )

@@ -758,7 +758,7 @@ fun GroupMemberItem(
                         text = if (inviteSent.value == null) stringResource(R.string.button_label_invite) else stringResource(
                             R.string.button_label_invited
                         ),
-                        contentColor = if (inviteSent.value == null) colorResource(R.color.olvid_gradient_light) else colorResource(
+                        contentColor = if (inviteSent.value == null) colorResource(R.color.imessage_blue) else colorResource(
                             R.color.greyTint
                         ),
                         enabled = inviteSent.value == null,
