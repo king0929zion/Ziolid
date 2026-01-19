@@ -87,8 +87,9 @@ open class RefreshingFragment : Fragment(), OnRefreshListener, EngineNotificatio
             val bytesOwnedIdentity =
                 userInfo[EngineNotifications.SERVER_POLLED_BYTES_OWNED_IDENTITY_KEY] as ByteArray?
             val success = userInfo[EngineNotifications.SERVER_POLLED_SUCCESS_KEY] as Boolean?
-            if (success != null
-                && bytesOwnedIdentity.contentEquals(AppSingleton.getBytesCurrentIdentity())
+            val currentIdentity = AppSingleton.getBytesCurrentIdentity()
+            if (success != null && bytesOwnedIdentity != null && currentIdentity != null
+                && bytesOwnedIdentity.contentEquals(currentIdentity)
             ) {
                 if (refreshingViewModel.isRefreshing.value) {
                     Handler(Looper.getMainLooper()).post {

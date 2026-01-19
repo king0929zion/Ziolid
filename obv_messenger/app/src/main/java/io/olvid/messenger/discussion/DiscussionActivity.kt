@@ -149,6 +149,8 @@ import androidx.paging.compose.itemKey
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat.AnimationCallback
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import coil.compose.AsyncImage
+import com.kyant.backdrop.backdrops.layerBackdrop
+import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import io.olvid.engine.Logger
 import io.olvid.engine.engine.types.JsonIdentityDetails
 import io.olvid.engine.engine.types.identities.ObvContactActiveOrInactiveReason.FORCEFULLY_UNBLOCKED
@@ -656,18 +658,25 @@ class DiscussionActivity : LockableActivity(), OnClickListener, AttachmentLongCl
                                 }
                             }
                         }
-                        .background(color = colorResource(id = R.color.almostWhite))
                 ) {
                     // discussion custom background
                     // TODO get rid of rootBackgroundImageView wrapper
-                    AsyncImage(
-                        modifier = Modifier.fillMaxSize(),
-                        model = rootBackgroundImageView.drawable
-                            ?: rootBackgroundImageView.background,
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                        imageLoader = App.imageLoader
-                    )
+                    val backdrop = rememberLayerBackdrop()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .layerBackdrop(backdrop)
+                            .background(color = colorResource(id = R.color.almostWhite))
+                    ) {
+                        AsyncImage(
+                            modifier = Modifier.fillMaxSize(),
+                            model = rootBackgroundImageView.drawable
+                                ?: rootBackgroundImageView.background,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            imageLoader = App.imageLoader
+                        )
+                    }
 
                     SharedTransitionLayout {
                         Box(modifier = Modifier.fillMaxSize()) {
@@ -898,6 +907,7 @@ class DiscussionActivity : LockableActivity(), OnClickListener, AttachmentLongCl
                                                         offset = it.positionOnScreen()
                                                     },
                                                 message = it,
+                                                backdrop = backdrop,
                                                 onClick = { messageClicked(it) },
                                                 onLongClick = {
                                                     if (discussionViewModel.isSelectingForDeletion) {

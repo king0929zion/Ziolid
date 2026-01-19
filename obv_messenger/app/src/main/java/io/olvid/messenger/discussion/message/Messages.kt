@@ -125,6 +125,12 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.kyant.backdrop.Backdrop
+import com.kyant.backdrop.drawBackdrop
+import com.kyant.backdrop.effects.blur
+import com.kyant.backdrop.effects.lens
+import com.kyant.backdrop.effects.vibrancy
+import com.kyant.capsule.ContinuousCapsule
 import io.olvid.engine.datatypes.ObvBase64
 import io.olvid.messenger.App
 import io.olvid.messenger.AppSingleton
@@ -294,6 +300,7 @@ fun Message(
     blockClicks: Boolean = false,
     fullWidth: Boolean = true,
     onMessageGloballyPositioned: ((LayoutCoordinates) -> Unit)? = null,
+    backdrop: Backdrop? = null,
 ) {
     Box(modifier) {
         val maxWidth = dimensionResource(R.dimen.imessage_message_max_width)
@@ -437,10 +444,27 @@ fun Message(
                             )
                             .then(
                                 if (message.isInbound) {
-                                    Modifier.background(
-                                        color = colorResource(id = R.color.imessage_received_background),
-                                        shape = bubbleShape
-                                    )
+                                    val receivedBubbleColor =
+                                        colorResource(id = R.color.imessage_received_background)
+                                    if (backdrop != null) {
+                                        Modifier.drawBackdrop(
+                                            backdrop = backdrop,
+                                            shape = { ContinuousCapsule },
+                                            effects = {
+                                                vibrancy()
+                                                blur(12.dp.toPx())
+                                                lens(16.dp.toPx(), 16.dp.toPx())
+                                            },
+                                            onDrawSurface = {
+                                                drawRect(receivedBubbleColor.copy(alpha = 0.85f))
+                                            }
+                                        )
+                                    } else {
+                                        Modifier.background(
+                                            color = receivedBubbleColor,
+                                            shape = bubbleShape
+                                        )
+                                    }
                                 } else if (message.messageType == Message.TYPE_OUTBOUND_MESSAGE) {
                                     Modifier.background(
                                         brush = outboundBubbleBrush,
@@ -1756,7 +1780,9 @@ fun GroupUpdateMessageInfo(
                 )
             }
         }
-        val kicked = message.mentions?.size == 1 && message.mentions?.first()?.userIdentifier?.contentEquals(AppSingleton.getBytesCurrentIdentity()) ?: false
+        val kicked = AppSingleton.getBytesCurrentIdentity()?.let { currentIdentity ->
+            message.mentions?.size == 1 && message.mentions?.firstOrNull()?.userIdentifier?.contentEquals(currentIdentity) == true
+        } ?: false
         MessageInfo(
             text = if (mention != null) {
                 if (kicked) {

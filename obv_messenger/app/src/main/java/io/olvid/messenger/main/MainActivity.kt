@@ -467,10 +467,8 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
         } else {
             intent.getByteArrayExtra(BYTES_OWNED_IDENTITY_TO_SELECT_INTENT_EXTRA)
         }
-        if (bytesOwnedIdentityToSelect != null && !bytesOwnedIdentityToSelect.contentEquals(
-                AppSingleton.getBytesCurrentIdentity()
-            )
-        ) {
+        val currentIdentity = AppSingleton.getBytesCurrentIdentity()
+        if (bytesOwnedIdentityToSelect != null && (currentIdentity == null || !bytesOwnedIdentityToSelect.contentEquals(currentIdentity))) {
             // if a profile switch is required, execute only once the identity is switched
             intent.removeExtra(HEX_STRING_BYTES_OWNED_IDENTITY_TO_SELECT_INTENT_EXTRA)
             intent.removeExtra(BYTES_OWNED_IDENTITY_TO_SELECT_INTENT_EXTRA)

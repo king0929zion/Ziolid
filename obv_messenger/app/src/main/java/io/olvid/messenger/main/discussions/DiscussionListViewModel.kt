@@ -719,8 +719,7 @@ fun Discussion.getAnnotatedBody(context: Context, message: Message?): AnnotatedS
                 Message.TYPE_SCREEN_SHOT_DETECTED -> {
                     withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
                         append(
-                            if (message.senderIdentifier.contentEquals(AppSingleton.getBytesCurrentIdentity())
-                            ) {
+                            if (AppSingleton.getBytesCurrentIdentity()?.contentEquals(message.senderIdentifier) == true) {
                                 context.getString(string.text_you_captured_sensitive_message)
                             } else {
                                 val displayName =
