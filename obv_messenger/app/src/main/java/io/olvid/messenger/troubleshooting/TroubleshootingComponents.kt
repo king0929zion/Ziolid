@@ -293,7 +293,7 @@ fun FaqLinkHeader(openFaq: () -> Unit, onBack: () -> Unit) {
                 withLink(
                     LinkAnnotation.Clickable(
                         tag = "",
-                        styles = TextLinkStyles(SpanStyle(color = colorResource(id = R.color.olvid_gradient_light))),
+                        styles = TextLinkStyles(SpanStyle(color = colorResource(id = R.color.imessage_blue))),
                         linkInteractionListener = { openFaq() }
                     ),
                 ) {

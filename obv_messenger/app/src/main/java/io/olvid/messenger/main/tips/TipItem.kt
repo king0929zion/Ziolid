@@ -503,7 +503,7 @@ fun TipItem(
 @Composable
 private fun TipBubble(
     @StringRes title: Int,
-    @ColorRes tint: Int = R.color.olvid_gradient_light,
+    @ColorRes tint: Int = R.color.imessage_blue,
     @StringRes message: Int? = null,
     messageString: String? = null,
     @StringRes action: Int? = null,
