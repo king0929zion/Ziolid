@@ -19,17 +19,13 @@
 
 package io.olvid.messenger.designsystem.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,28 +39,15 @@ fun PlusButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
         modifier = modifier,
         onClick = onClick,
         shape = CircleShape,
-        containerColor = Color.Transparent,
+        containerColor = colorResource(R.color.imessage_blue),
         contentColor = colorResource(R.color.alwaysWhite),
+        elevation = FloatingActionButtonDefaults.elevation(),
     ) {
-        Box(
-            modifier = Modifier
-                .size(56.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            colorResource(id = R.color.olvid_gradient_light),
-                            colorResource(id = R.color.olvid_gradient_dark)
-                        )
-                    ),
-                    shape = CircleShape
-                )
-        ) {
-            Icon(
-                modifier = Modifier.align(Alignment.Center),
-                painter = painterResource(R.drawable.ic_add_white),
-                contentDescription = stringResource(R.string.button_label_add)
-            )
-        }
+        Icon(
+            modifier = Modifier.size(24.dp),
+            painter = painterResource(R.drawable.ic_add_white),
+            contentDescription = stringResource(R.string.button_label_add)
+        )
     }
 }
 
@@ -73,4 +56,3 @@ fun PlusButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 fun PlusButtonPreview() {
     PlusButton()
 }
-

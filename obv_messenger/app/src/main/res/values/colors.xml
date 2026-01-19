@@ -72,7 +72,7 @@
     <color name="imessage_grey_dark">#C7C7CC</color>
     <color name="imessage_text_light">#FFFFFF</color>
     <color name="imessage_text_dark">#000000</color>
-    <color name="imessage_tab_bar_bg">#FFFFFF</color>
+    <color name="imessage_tab_bar_bg">#CCFFFFFF</color>
     <color name="imessage_tab_bar_selected">#007AFF</color>
     <color name="imessage_tab_bar_unselected">#8E8E93</color>
     <color name="imessage_separator">#C6C6C8</color>
