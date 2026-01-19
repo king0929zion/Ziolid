@@ -114,7 +114,7 @@ fun LiquidGlassBottomBar(
  * Individual Liquid Glass Bottom Tab Item.
  */
 @Composable
-fun LiquidGlassBottomTab(
+fun RowScope.LiquidGlassBottomTab(
     iconResId: Int,
     label: String,
     isSelected: Boolean,
