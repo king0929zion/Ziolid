@@ -91,7 +91,7 @@ fun ReactionBar(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .background(
-                color = colorResource(R.color.dialogBackground),
+                color = colorResource(R.color.imessage_grey),
                 shape = RoundedCornerShape(16.dp)
             )
             .clip(RoundedCornerShape(16.dp)),
@@ -123,7 +123,7 @@ fun ReactionBar(
                         )
                         .border(
                             width = 1.dp,
-                            color = if (emoji == currentReaction) colorResource(R.color.olvid_gradient_light) else Color.Transparent,
+                            color = if (emoji == currentReaction) colorResource(R.color.imessage_blue) else Color.Transparent,
                             shape = RoundedCornerShape(16.dp)
                         )
                         .padding(6.dp)

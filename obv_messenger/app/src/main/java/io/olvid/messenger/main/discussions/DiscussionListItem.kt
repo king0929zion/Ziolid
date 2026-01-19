@@ -307,7 +307,7 @@ fun DiscussionListItem(
                             } ?: body
                             Text(
                                 text = statusAndBody,
-                                color = colorResource(id = R.color.greyTint),
+                                color = colorResource(id = R.color.almostBlack).copy(alpha = 0.7f),
                                 style = OlvidTypography.body2,
                                 maxLines = if (attachmentCount > 0) 1 else 2,
                                 overflow = TextOverflow.Ellipsis,
