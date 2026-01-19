@@ -183,7 +183,7 @@ fun OnboardingScreen(
                                     shape = RoundedCornerShape(8.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         contentColor = colorResource(R.color.alwaysWhite),
-                                        containerColor = colorResource(R.color.olvid_gradient_light),
+                                        containerColor = colorResource(R.color.imessage_blue),
                                     ),
                                     onClick = action.onClick,
                                     enabled = action.enabled
@@ -210,7 +210,7 @@ fun OnboardingScreen(
                                     shape = RoundedCornerShape(8.dp),
                                     border = BorderStroke(
                                         1.dp,
-                                        colorResource(R.color.olvid_gradient_light)
+                                        colorResource(R.color.imessage_blue)
                                     ),
                                     onClick = action.onClick,
                                     enabled = action.enabled,
