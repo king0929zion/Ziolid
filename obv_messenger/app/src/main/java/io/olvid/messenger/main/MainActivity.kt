@@ -298,9 +298,7 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
             }
         })
         ownInitialView.setOnTouchListener { _, event: MotionEvent? ->
-            gestureDetector.onTouchEvent(
-                event!!
-            )
+            event?.let { gestureDetector.onTouchEvent(it) } ?: false
         }
         connectivityIndicator = ConnectivityIndicator(this)
         connectivityIndicator?.let {
@@ -324,7 +322,7 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
         mainActivityPageChangeListener = MainActivityPageChangeListener(tabImageViews)
         viewPager.adapter = tabsPagerAdapter
         viewPager.isUserInputEnabled = false
-        viewPager.registerOnPageChangeCallback(mainActivityPageChangeListener!!)
+        mainActivityPageChangeListener?.let { viewPager.registerOnPageChangeCallback(it) }
         viewPager.offscreenPageLimit = 3
         val focusHugger = findViewById<View>(R.id.focus_hugger)
         focusHugger.requestFocus()
@@ -394,9 +392,9 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
                 .hasUnreadMessagesOrDiscussionsOrInvitations(ownedIdentity.bytesOwnedIdentity)
         }.observe(this) { unreadMessages: Boolean? ->
             if (unreadMessages != null && unreadMessages) {
-                tabsPagerAdapter!!.showNotificationDot(DISCUSSIONS_TAB)
+                tabsPagerAdapter?.showNotificationDot(DISCUSSIONS_TAB)
             } else {
-                tabsPagerAdapter!!.hideNotificationDot(DISCUSSIONS_TAB)
+                tabsPagerAdapter?.hideNotificationDot(DISCUSSIONS_TAB)
             }
         }
         val unreadMarker = findViewById<ImageView>(R.id.owned_identity_unread_marker_image_view)
@@ -1007,7 +1005,7 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
                             color or ((positionOffset * (inactiveColor and 0xff00) + (1 - positionOffset) * (activeColor and 0xff00)).toInt() and 0xff00)
                         color =
                             color or ((positionOffset * (inactiveColor and 0xff0000) + (1 - positionOffset) * (activeColor and 0xff0000)).toInt() and 0xff0000)
-                        imageViews[i]!!.setColorFilter(color)
+                        imageViews[i]?.setColorFilter(color)
                     }
 
                     position + 1 -> {
@@ -1018,11 +1016,11 @@ class MainActivity : LockableActivity(), OnClickListener, SharedPreferences.OnSh
                             color or ((positionOffset * (activeColor and 0xff00) + (1 - positionOffset) * (inactiveColor and 0xff00)).toInt() and 0xff00)
                         color =
                             color or ((positionOffset * (activeColor and 0xff0000) + (1 - positionOffset) * (inactiveColor and 0xff0000)).toInt() and 0xff0000)
-                        imageViews[i]!!.setColorFilter(color)
+                        imageViews[i]?.setColorFilter(color)
                     }
 
                     else -> {
-                        imageViews[i]!!.setColorFilter(inactiveColor)
+                        imageViews[i]?.setColorFilter(inactiveColor)
                     }
                 }
             }

@@ -234,15 +234,15 @@ fun ContactListScreen(
                 state = pagerState,
                 beyondViewportPageCount = if (contactListViewModel.keycloakManaged.value) 2 else 1
             ) { pageIndex ->
-                val page = pageTypes[pageIndex]
+                val page = pageTypes.getOrNull(pageIndex) ?: return@HorizontalPager
                 val filter =
                     if (contactListViewModel.isFiltering() && showOthers.not()) { contactOrKeycloakDetails ->
                         val passesPageFilter =
                             if (contactListViewModel.filteredPages.isEmpty()) {
                                 true
                             } else {
-                                contactListViewModel.filteredPages.any {
-                                    pages[it]!!(contactOrKeycloakDetails)
+                                contactListViewModel.filteredPages.any { pageType ->
+                                    pages[pageType]?.invoke(contactOrKeycloakDetails) == true
                                 }
                             }
                         if (passesPageFilter) {
@@ -256,7 +256,7 @@ fun ContactListScreen(
                         } else {
                             false
                         }
-                    } else pages[page]!!
+                    } else pages[page] ?: { false }
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Center
@@ -559,7 +559,7 @@ private fun Header(
         contentColor = colorResource(id = R.color.almostBlack),
     ) {
         pages.forEachIndexed { index, page ->
-            val filter = filters[page]!!
+            val filter = filters[page] ?: { false }
             CustomTab(
                 selected = pagerState.currentPage == index,
                 horizontalTextPadding = 4.dp,
