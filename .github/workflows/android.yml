@@ -52,7 +52,7 @@ jobs:
         id: version
         shell: bash
         run: |
-          VERSION_NAME="$(grep -E '^[[:space:]]*versionName[[:space:]]+\"' -n obv_messenger/app/build.gradle | head -n1 | sed -E 's/.*versionName[[:space:]]+\"([^\"]+)\".*/\\1/')"
+          VERSION_NAME="$(grep -E '^[[:space:]]*versionName[[:space:]]+\"' obv_messenger/app/build.gradle | head -n1 | sed -E 's/.*versionName[[:space:]]+\"([^\"]+)\".*/\1/')"
           if [ -z "$VERSION_NAME" ]; then
             echo "Failed to read versionName from obv_messenger/app/build.gradle" >&2
             exit 1
