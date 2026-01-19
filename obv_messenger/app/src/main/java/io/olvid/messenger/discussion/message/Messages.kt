@@ -247,13 +247,14 @@ fun DateHeader(
         Text(
             modifier = Modifier
                 .background(
-                    color = colorResource(id = R.color.primary400_90),
+                    color = colorResource(id = R.color.imessage_grey),
                     shape = CircleShape
                 )
                 .padding(vertical = 4.dp, horizontal = 8.dp),
             textAlign = TextAlign.Center,
             text = date,
-            color = Color.White
+            style = OlvidTypography.subtitle2,
+            color = colorResource(id = R.color.imessage_text_dark)
         )
     }
 }

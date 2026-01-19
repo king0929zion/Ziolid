@@ -141,7 +141,7 @@ fun Reactions(
                 modifier = Modifier
                     .clip(RoundedCornerShape(16.dp))
                     .background(
-                        color = colorResource(id = R.color.lighterGrey),
+                        color = colorResource(id = R.color.imessage_grey),
                         shape = RoundedCornerShape(16.dp)
                     )
                     .border(
@@ -169,7 +169,7 @@ fun Reactions(
                             )
                             .border(
                                 width = 1.dp,
-                                color = colorResource(id = R.color.olvid_gradient_light),
+                                color = colorResource(id = R.color.imessage_blue),
                                 shape = CircleShape
                             )
                             .padding(horizontal = 4.dp, vertical = 2.dp)
