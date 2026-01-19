@@ -61,9 +61,10 @@ open class RefreshingFragment : Fragment(), OnRefreshListener, EngineNotificatio
     }
 
     override fun onRefresh() {
-        if (AppSingleton.getBytesCurrentIdentity() != null) {
+        val currentIdentity = AppSingleton.getBytesCurrentIdentity()
+        if (currentIdentity != null) {
             refreshingViewModel.setRefresh(true)
-            AppSingleton.getEngine().downloadMessages(AppSingleton.getBytesCurrentIdentity())
+            AppSingleton.getEngine().downloadMessages(currentIdentity)
             App.runThread {
                 try {
                     Thread.sleep(5000)

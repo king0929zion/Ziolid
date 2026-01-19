@@ -451,8 +451,9 @@ class InitialView : View {
     fun setFromCache(bytesIdentifier: ByteArray) {
         runCatching {
             var changed = false
+            val currentIdentity = AppSingleton.getBytesCurrentIdentity()
             val displayName: String? =
-                if (bytesIdentifier.contentEquals(AppSingleton.getBytesCurrentIdentity())) {
+                if (currentIdentity != null && bytesIdentifier.contentEquals(currentIdentity)) {
                     val ownedIdentity = AppSingleton.getCurrentIdentityLiveData().value
                     if (ownedIdentity != null) {
                         ownedIdentity.getCustomDisplayName()
