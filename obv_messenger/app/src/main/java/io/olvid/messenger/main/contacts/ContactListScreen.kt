@@ -427,7 +427,7 @@ fun ContactListScreen(
                                                                                         ),
                                                                                     contentColor =
                                                                                         if (inviteSent.value == null) colorResource(
-                                                                                            R.color.olvid_gradient_light
+                                                                                            R.color.imessage_blue
                                                                                         ) else colorResource(
                                                                                             R.color.greyTint
                                                                                         ),
@@ -581,7 +581,7 @@ private fun Header(
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .size(16.dp),
-                                color = colorResource(id = R.color.olvid_gradient_light),
+                                color = colorResource(id = R.color.imessage_blue),
                                 strokeWidth = 2.dp
                             )
                         }) {
@@ -595,7 +595,7 @@ private fun Header(
                         BadgedBox(badge = {
                             Badge(
                                 modifier = Modifier.padding(4.dp),
-                                backgroundColor = colorResource(id = R.color.olvid_gradient_light),
+                                backgroundColor = colorResource(id = R.color.imessage_blue),
                             ) {
                                 Text(
                                     color = colorResource(id = R.color.almostWhite),
@@ -706,7 +706,7 @@ private fun KeycloakSearching() {
             .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(color = colorResource(id = R.color.olvid_gradient_light))
+        CircularProgressIndicator(color = colorResource(id = R.color.imessage_blue))
         Text(
             text = stringResource(id = R.string.label_searching_company_directory),
             textAlign = TextAlign.Center,
@@ -817,7 +817,7 @@ private fun FilterChip(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple(
                     bounded = true,
-                    color = colorResource(R.color.olvid_gradient_light),
+                    color = colorResource(R.color.imessage_blue),
                 ),
                 onClick = onClick,)
             .padding(horizontal = 12.dp, vertical = 6.dp)
