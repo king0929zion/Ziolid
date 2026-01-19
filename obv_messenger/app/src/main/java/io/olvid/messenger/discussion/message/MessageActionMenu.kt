@@ -303,9 +303,9 @@ fun MessageActionMenu(
                                             focusState = focusState,
                                             onClearClick = { emojiSearchViewModel.reset() },
                                             colors = OutlinedTextFieldDefaults.colors(
-                                                focusedBorderColor = colorResource(R.color.olvid_gradient_light),
+                                                focusedBorderColor = colorResource(R.color.imessage_blue),
                                                 unfocusedBorderColor = colorResource(R.color.mediumGrey),
-                                                cursorColor = colorResource(R.color.olvid_gradient_light)
+                                                cursorColor = colorResource(R.color.imessage_blue)
                                             )
                                         )
                                         LaunchedEffect(focusState.value) {

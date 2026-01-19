@@ -85,9 +85,9 @@ fun SearchBar(
     focusState: MutableState<Boolean>? = null,
     selectAllBeacon: Any? = null, // any time selectAllBeacon object changes, the text of the search bar is fully selected
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = colorResource(R.color.olvid_gradient_dark),
+        focusedBorderColor = colorResource(R.color.imessage_blue),
         unfocusedBorderColor = colorResource(R.color.lightGrey),
-        cursorColor = colorResource(R.color.olvid_gradient_light)
+        cursorColor = colorResource(R.color.imessage_blue)
     )
 ) {
 
