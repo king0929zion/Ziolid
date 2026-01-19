@@ -191,7 +191,7 @@ fun DiscussionListScreen(
                 ) { snackbarData ->
                     Snackbar(
                         contentColor = colorResource(R.color.alwaysWhite),
-                        actionColor = colorResource(R.color.olvid_gradient_light),
+                        actionColor = colorResource(R.color.imessage_blue),
                         snackbarData = snackbarData
                     )
                 }
@@ -381,7 +381,7 @@ fun DiscussionListScreen(
                                                         style = OlvidTypography.body1.copy(
                                                             fontWeight = FontWeight.Medium
                                                         ),
-                                                        color = colorResource(id = R.color.olvid_gradient_light)
+                                                        color = colorResource(id = R.color.imessage_blue)
                                                     )
                                                 }
                                             }
@@ -515,7 +515,7 @@ fun DiscussionListScreen(
                                                         style = OlvidTypography.body1.copy(
                                                             fontWeight = FontWeight.Medium
                                                         ),
-                                                        color = colorResource(id = R.color.olvid_gradient_light)
+                                                        color = colorResource(id = R.color.imessage_blue)
                                                     )
                                                 }
                                                 Spacer(
