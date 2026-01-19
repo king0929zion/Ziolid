@@ -41,7 +41,7 @@
         android:id="@+id/discussion_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/imessage_tab_bar_bg"
         android:theme="@style/AppTheme.LightAppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
         app:popupTheme="@style/AppTheme"
         app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
-        android:elevation="8dp"
+        android:elevation="0dp"
         android:clickable="true"
         android:focusable="true">
 
@@ -75,6 +75,7 @@
                 android:background="@drawable/background_circular_ripple"
                 android:theme="@style/GreyRipple"
                 android:src="@drawable/ic_arrow_back"
+                app:tint="@color/imessage_blue"
                 android:contentDescription="@string/content_description_back_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -129,6 +130,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/title_bar_initial_view" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/imessage_separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>

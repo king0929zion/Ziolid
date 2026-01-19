@@ -3,10 +3,9 @@ name: Android CI
 on:
   push:
     branches: [ main ]
-    tags:
-      - 'v*'
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -41,10 +40,25 @@ jobs:
         path: obv_messenger/app/build/outputs/apk/**/*.apk
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read Version Name
+        id: version
+        shell: bash
+        run: |
+          VERSION_NAME="$(grep -E '^[[:space:]]*versionName[[:space:]]+\"' -n obv_messenger/app/build.gradle | head -n1 | sed -E 's/.*versionName[[:space:]]+\"([^\"]+)\".*/\\1/')"
+          if [ -z "$VERSION_NAME" ]; then
+            echo "Failed to read versionName from obv_messenger/app/build.gradle" >&2
+            exit 1
+          fi
+          echo "version_name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+
       - name: Download APKs
         uses: actions/download-artifact@v4
         with:
@@ -54,4 +68,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ steps.version.outputs.version_name }}
+          name: v${{ steps.version.outputs.version_name }}
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
           files: apks/**/*.apk

@@ -105,6 +105,7 @@ import io.olvid.messenger.databases.AppDatabase
 import io.olvid.messenger.databases.entity.Discussion
 import io.olvid.messenger.databases.tasks.PropagatePinnedDiscussionsChangeTask
 import io.olvid.messenger.designsystem.cutoutHorizontalPadding
+import io.olvid.messenger.designsystem.liquid.LiquidGlassContainer
 import io.olvid.messenger.designsystem.plus
 import io.olvid.messenger.designsystem.systemBarsHorizontalPadding
 import io.olvid.messenger.designsystem.theme.OlvidTypography
@@ -389,12 +390,12 @@ fun DiscussionListScreen(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .padding(
-                                                        start = 84.dp,
+                                                        start = 64.dp,
                                                         end = 12.dp
                                                     )
                                                     .requiredHeight(1.dp)
                                                     .background(
-                                                        color = colorResource(id = R.color.lightGrey)
+                                                        color = colorResource(id = R.color.imessage_separator)
                                                     )
                                             )
                                         }
@@ -445,12 +446,12 @@ fun DiscussionListScreen(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .padding(
-                                                            start = 84.dp,
+                                                            start = 64.dp,
                                                             end = 12.dp
                                                         )
                                                         .requiredHeight(1.dp)
                                                         .background(
-                                                            color = colorResource(id = R.color.lightGrey)
+                                                            color = colorResource(id = R.color.imessage_separator)
                                                         )
                                                 )
                                             }
@@ -522,12 +523,12 @@ fun DiscussionListScreen(
                                                     modifier = Modifier
                                                         .fillMaxWidth()
                                                         .padding(
-                                                            start = 84.dp,
+                                                            start = 64.dp,
                                                             end = 12.dp
                                                         )
                                                         .requiredHeight(1.dp)
                                                         .background(
-                                                            color = colorResource(id = R.color.lightGrey)
+                                                            color = colorResource(id = R.color.imessage_separator)
                                                         )
                                                 )
                                             }
@@ -760,35 +761,52 @@ fun DiscussionListScreen(
 
 @Composable
 fun PinDivider() {
-    Row(
+    Box(
         modifier = Modifier
-            .background(color = colorResource(id = R.color.lightGrey))
             .fillMaxWidth()
-            .requiredHeight(24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Icon(imageVector = Icons.Rounded.KeyboardArrowUp, contentDescription = "up", tint = colorResource(R.color.almostBlack))
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = stringResource(id = R.string.label_discussion_list_pin_divider),
-            style = OlvidTypography.body2.copy(
-                fontWeight = FontWeight.Medium
-            ),
-            color = colorResource(R.color.almostBlack),
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Icon(
-            modifier = Modifier
-                .padding(top = 2.dp)
-                .size(16.dp),
-            painter = painterResource(id = R.drawable.ic_pinned),
-            contentDescription = "pinned",
-            tint = colorResource(R.color.almostBlack)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Icon(imageVector = Icons.Rounded.KeyboardArrowUp, contentDescription = "up",  tint = colorResource(R.color.almostBlack))
+        LiquidGlassContainer(
+            cornerRadius = 16.dp,
+            blurAmount = 10.dp,
+            lensRadius = 16.dp,
+            tintColor = colorResource(R.color.imessage_tab_bar_bg).copy(alpha = 0.25f),
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.KeyboardArrowUp,
+                    contentDescription = "up",
+                    tint = colorResource(R.color.almostBlack)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = stringResource(id = R.string.label_discussion_list_pin_divider),
+                    style = OlvidTypography.body2.copy(fontWeight = FontWeight.Medium),
+                    color = colorResource(R.color.almostBlack),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    modifier = Modifier
+                        .padding(top = 2.dp)
+                        .size(16.dp),
+                    painter = painterResource(id = R.drawable.ic_pinned),
+                    contentDescription = "pinned",
+                    tint = colorResource(R.color.almostBlack)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Icon(
+                    imageVector = Icons.Rounded.KeyboardArrowUp,
+                    contentDescription = "up",
+                    tint = colorResource(R.color.almostBlack)
+                )
+            }
+        }
     }
 }
 

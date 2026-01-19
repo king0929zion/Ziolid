@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -119,6 +118,7 @@ fun DiscussionListItem(
     val avatarSize = dimensionResource(R.dimen.imessage_avatar_size)
     val timeFontSize =
         with(LocalDensity.current) { dimensionResource(R.dimen.imessage_time_font_size).toSp() }
+    val accentColor = remember(customColor) { Color(customColor) }
     Box(
         modifier = modifier
     ) {
@@ -146,39 +146,35 @@ fun DiscussionListItem(
                     },
                     indication = ripple().takeIf { selected.not() }
                 )
-                .padding(end = 8.dp),
+                .padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // custom color
+            // InitialView
             Box(
                 modifier = Modifier
-                    .requiredWidth(8.dp)
-                    .fillMaxHeight()
-                    .background(color = Color(customColor))
-            )
-
-            // InitialView
-            InitialView(
-                modifier = Modifier
-                    .padding(
-                        top = 10.dp,
-                        start = 12.dp,
-                        end = 12.dp,
-                        bottom = 10.dp
+                    .padding(vertical = 10.dp)
+                    .requiredSize(avatarSize)
+                    .clip(CircleShape)
+                    .background(
+                        color = accentColor.copy(alpha = 0.12f),
+                        shape = CircleShape
                     )
-                    .requiredSize(avatarSize),
-                initialViewSetup = initialViewSetup,
-                selected = selected,
-                unreadMessages = unreadCount > 0 || unread,
-                locked = locked,
-            )
+                    .padding(1.dp)
+            ) {
+                InitialView(
+                    modifier = Modifier.fillMaxSize(),
+                    initialViewSetup = initialViewSetup,
+                    selected = selected,
+                    unreadMessages = unreadCount > 0 || unread,
+                    locked = locked,
+                )
+            }
 
             // content
             Column(
                 modifier = Modifier
                     .weight(1f, true)
-                    .padding(vertical = 12.dp)
-                    .padding(end = 8.dp)
+                    .padding(start = 12.dp, top = 12.dp, bottom = 12.dp, end = 6.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.Top,

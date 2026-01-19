@@ -23,24 +23,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.matchParentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kyant.backdrop.Backdrop
+import com.kyant.backdrop.backdrops.LayerBackdrop
+import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.effects.vibrancy
 import com.kyant.capsule.ContinuousCapsule
-import io.olvid.messenger.R
 
 /**
  * iOS-style Liquid Glass container with backdrop effect.
@@ -51,6 +55,7 @@ import io.olvid.messenger.R
  * @param lensRadius The radius of the lens effect (default 24dp).
  * @param tintColor The tint color to apply to the glass surface.
  * @param showInnerRefraction Whether to show inner refraction effect.
+ * @param backdrop Backdrop source used for blur/lens. When null, draws a translucent surface only.
  * @param content The content to display inside the liquid glass container.
  */
 @Composable
@@ -61,6 +66,7 @@ fun LiquidGlassContainer(
     lensRadius: Dp = 24.dp,
     tintColor: Color = Color.Unspecified,
     showInnerRefraction: Boolean = true,
+    backdrop: Backdrop? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     val isLightTheme = !isSystemInDarkTheme()
@@ -73,26 +79,37 @@ fun LiquidGlassContainer(
         }
     }
 
-    val backdrop = remember { Backdrop() }
+    val shape: Shape = remember(cornerRadius) { RoundedCornerShape(cornerRadius) }
 
     Box(
         modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { ContinuousCapsule },
-                effects = {
-                    vibrancy()
-                    blur(blurAmount.toPx())
-                    if (showInnerRefraction) {
-                        lens(lensRadius.toPx(), lensRadius.toPx())
-                    }
-                },
-                onDrawSurface = {
-                    drawRect(containerColor)
-                    if (tintColor != Color.Unspecified) {
-                        drawRect(tintColor)
-                    }
+            .clip(shape)
+            .then(
+                if (backdrop != null) {
+                    Modifier.drawBackdrop(
+                        backdrop = backdrop,
+                        shape = { ContinuousCapsule },
+                        effects = {
+                            vibrancy()
+                            blur(blurAmount.toPx())
+                            if (showInnerRefraction) {
+                                lens(lensRadius.toPx(), lensRadius.toPx())
+                            }
+                        },
+                        onDrawSurface = {
+                            drawRect(containerColor)
+                            if (tintColor != Color.Unspecified) {
+                                drawRect(tintColor)
+                            }
+                        }
+                    )
+                } else {
+                    Modifier
+                        .background(containerColor)
+                        .then(
+                            if (tintColor != Color.Unspecified) Modifier.background(tintColor)
+                            else Modifier
+                        )
                 }
             )
     ) {
@@ -109,6 +126,7 @@ fun LiquidGlassButton(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 12.dp,
     tintColor: Color = Color.Unspecified,
+    backdrop: Backdrop? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     val isLightTheme = !isSystemInDarkTheme()
@@ -121,27 +139,46 @@ fun LiquidGlassButton(
         }
     }
 
-    val backdrop = remember { Backdrop() }
+    val shape: Shape = remember(cornerRadius) { RoundedCornerShape(cornerRadius) }
+    val interactionSource = remember { MutableInteractionSource() }
 
     Box(
         modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { ContinuousCapsule },
-                effects = {
-                    vibrancy()
-                    blur(8.dp.toPx())
-                    lens(16.dp.toPx(), 16.dp.toPx())
-                },
-                onDrawSurface = {
-                    drawRect(containerColor)
-                    if (tintColor != Color.Unspecified) {
-                        drawRect(tintColor.copy(alpha = 0.3f))
-                    }
+            .clip(shape)
+            .then(
+                if (backdrop != null) {
+                    Modifier.drawBackdrop(
+                        backdrop = backdrop,
+                        shape = { ContinuousCapsule },
+                        effects = {
+                            vibrancy()
+                            blur(8.dp.toPx())
+                            lens(16.dp.toPx(), 16.dp.toPx())
+                        },
+                        onDrawSurface = {
+                            drawRect(containerColor)
+                            if (tintColor != Color.Unspecified) {
+                                drawRect(tintColor.copy(alpha = 0.3f))
+                            }
+                        }
+                    )
+                } else {
+                    Modifier
+                        .background(containerColor)
+                        .then(
+                            if (tintColor != Color.Unspecified) {
+                                Modifier.background(tintColor.copy(alpha = 0.3f))
+                            } else {
+                                Modifier
+                            }
+                        )
                 }
             )
-            .background(Color.Transparent)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            )
     ) {
         content()
     }
@@ -155,6 +192,7 @@ fun LiquidGlassPanel(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 24.dp,
     blurAmount: Dp = 24.dp,
+    backdrop: Backdrop? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     val isLightTheme = !isSystemInDarkTheme()
@@ -167,21 +205,25 @@ fun LiquidGlassPanel(
         }
     }
 
-    val backdrop = remember { Backdrop() }
+    val shape: Shape = remember(cornerRadius) { RoundedCornerShape(cornerRadius) }
 
     Box(
         modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { ContinuousCapsule },
-                effects = {
-                    vibrancy()
-                    blur(blurAmount.toPx())
-                    lens(20.dp.toPx(), 20.dp.toPx())
-                },
-                onDrawSurface = {
-                    drawRect(panelColor)
+            .clip(shape)
+            .then(
+                if (backdrop != null) {
+                    Modifier.drawBackdrop(
+                        backdrop = backdrop,
+                        shape = { ContinuousCapsule },
+                        effects = {
+                            vibrancy()
+                            blur(blurAmount.toPx())
+                            lens(20.dp.toPx(), 20.dp.toPx())
+                        },
+                        onDrawSurface = { drawRect(panelColor) }
+                    )
+                } else {
+                    Modifier.background(panelColor)
                 }
             )
     ) {
@@ -190,35 +232,68 @@ fun LiquidGlassPanel(
 }
 
 /**
- * Background modifier for creating liquid glass backgrounds.
+ * Root container that records background content into a [LayerBackdrop], then renders overlays
+ * (e.g., Liquid Glass surfaces) using that backdrop.
  */
 @Composable
-fun Modifier.liquidGlassBackground(
-    blurAmount: Dp = 20.dp,
-    tintAlpha: Float = 0.5f
-): Modifier {
-    val isLightTheme = !isSystemInDarkTheme()
-    val backdrop = remember { Backdrop() }
-
-    val tintColor = remember(isLightTheme, tintAlpha) {
-        if (isLightTheme) {
-            Color.White.copy(alpha = tintAlpha)
-        } else {
-            Color.Black.copy(alpha = tintAlpha)
-        }
-    }
-
-    return this
-        .drawBackdrop(
-            backdrop = backdrop,
-            shape = { ContinuousCapsule },
-            effects = {
-                vibrancy()
-                blur(blurAmount.toPx())
-            },
-            onDrawSurface = {
-                drawRect(tintColor)
-            }
+fun LiquidGlassBackdropBox(
+    modifier: Modifier = Modifier,
+    background: @Composable BoxScope.() -> Unit,
+    overlay: @Composable BoxScope.(backdrop: Backdrop) -> Unit,
+) {
+    val layerBackdrop = rememberLayerBackdrop()
+    Box(modifier) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .layerBackdrop(layerBackdrop),
+            content = background
         )
-        .padding(0.dp)
+        overlay(layerBackdrop)
+    }
+}
+
+/**
+ * Convenience for circular Liquid Glass surfaces (e.g. icon buttons).
+ */
+@Composable
+fun LiquidGlassCircle(
+    modifier: Modifier = Modifier,
+    backdrop: Backdrop? = null,
+    blurAmount: Dp = 12.dp,
+    lensRadius: Dp = 16.dp,
+    tintColor: Color = Color.Unspecified,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    val isLightTheme = !isSystemInDarkTheme()
+    val containerColor = remember(isLightTheme) {
+        if (isLightTheme) Color.White.copy(alpha = 0.5f) else Color.Black.copy(alpha = 0.5f)
+    }
+    Box(
+        modifier
+            .clip(CircleShape)
+            .then(
+                if (backdrop != null) {
+                    Modifier.drawBackdrop(
+                        backdrop = backdrop,
+                        shape = { ContinuousCapsule },
+                        effects = {
+                            vibrancy()
+                            blur(blurAmount.toPx())
+                            lens(lensRadius.toPx(), lensRadius.toPx())
+                        },
+                        onDrawSurface = {
+                            drawRect(containerColor)
+                            if (tintColor != Color.Unspecified) drawRect(tintColor)
+                        }
+                    )
+                } else {
+                    Modifier
+                        .background(containerColor)
+                        .then(if (tintColor != Color.Unspecified) Modifier.background(tintColor) else Modifier)
+                }
+            )
+    ) {
+        content()
+    }
 }

@@ -298,7 +298,24 @@ fun Message(
     Box(modifier) {
         val maxWidth = dimensionResource(R.dimen.imessage_message_max_width)
         val bubbleCornerRadius = dimensionResource(R.dimen.imessage_bubble_corner_radius)
-        val bubbleShape = RoundedCornerShape(bubbleCornerRadius)
+        val bubbleTailCornerRadius = dimensionResource(R.dimen.imessage_bubble_small_corner_radius)
+        val bubbleShape = remember(message.isInbound, bubbleCornerRadius, bubbleTailCornerRadius) {
+            if (message.isInbound) {
+                RoundedCornerShape(
+                    topStart = bubbleCornerRadius,
+                    topEnd = bubbleCornerRadius,
+                    bottomEnd = bubbleCornerRadius,
+                    bottomStart = bubbleTailCornerRadius,
+                )
+            } else {
+                RoundedCornerShape(
+                    topStart = bubbleCornerRadius,
+                    topEnd = bubbleCornerRadius,
+                    bottomStart = bubbleCornerRadius,
+                    bottomEnd = bubbleTailCornerRadius,
+                )
+            }
+        }
         val outboundBubbleBrush = Brush.linearGradient(
             colors = listOf(
                 colorResource(id = R.color.imessage_blue_light),

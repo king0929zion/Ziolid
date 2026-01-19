@@ -24,6 +24,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,15 +45,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.kyant.backdrop.Backdrop
-import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
@@ -69,14 +65,12 @@ import io.olvid.messenger.designsystem.theme.OlvidTypography
 fun LiquidGlassBottomBar(
     selectedTabIndex: Int,
     onTabSelected: (Int) -> Unit,
+    backdrop: com.kyant.backdrop.Backdrop? = null,
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
 ) {
     val isLightTheme = !isSystemInDarkTheme()
-    val backdrop = remember { Backdrop() }
-    val layerBackdrop = remember { layerBackdrop() }
 
-    val accentColor = colorResource(R.color.imessage_blue)
     val containerColor = if (isLightTheme) {
         Color.White.copy(alpha = 0.6f)
     } else {
@@ -87,16 +81,20 @@ fun LiquidGlassBottomBar(
         modifier = modifier
             .fillMaxWidth()
             .height(64.dp)
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { ContinuousCapsule },
-                effects = {
-                    vibrancy()
-                    blur(16.dp.toPx())
-                    lens(24.dp.toPx(), 24.dp.toPx())
-                },
-                onDrawSurface = {
-                    drawRect(containerColor)
+            .then(
+                if (backdrop != null) {
+                    Modifier.drawBackdrop(
+                        backdrop = backdrop,
+                        shape = { ContinuousCapsule },
+                        effects = {
+                            vibrancy()
+                            blur(16.dp.toPx())
+                            lens(24.dp.toPx(), 24.dp.toPx())
+                        },
+                        onDrawSurface = { drawRect(containerColor) }
+                    )
+                } else {
+                    Modifier.background(containerColor)
                 }
             )
             .padding(horizontal = 4.dp, vertical = 4.dp)
@@ -117,9 +115,10 @@ fun LiquidGlassBottomBar(
  */
 @Composable
 fun LiquidGlassBottomTab(
-    icon: ImageVector,
+    iconResId: Int,
     label: String,
     isSelected: Boolean,
+    showBadge: Boolean = false,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -144,8 +143,6 @@ fun LiquidGlassBottomTab(
         label = "tabColor"
     )
 
-    val backdrop = remember { Backdrop() }
-
     Box(
         modifier = modifier
             .weight(1f)
@@ -163,23 +160,11 @@ fun LiquidGlassBottomTab(
         contentAlignment = Alignment.Center
     ) {
         if (isSelected) {
-            // Selected state with liquid glass effect
             Box(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .drawBackdrop(
-                        backdrop = backdrop,
-                        shape = { ContinuousCapsule },
-                        effects = {
-                            vibrancy()
-                            blur(12.dp.toPx())
-                            lens(16.dp.toPx(), 16.dp.toPx())
-                        },
-                        onDrawSurface = {
-                            drawRect(accentColor.copy(alpha = 0.2f))
-                        }
-                    )
+                    .background(accentColor.copy(alpha = 0.14f))
             )
         }
 
@@ -189,7 +174,7 @@ fun LiquidGlassBottomTab(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = icon,
+                painter = painterResource(id = iconResId),
                 contentDescription = label,
                 modifier = Modifier.size(24.dp),
                 tint = animatedColor
@@ -204,6 +189,17 @@ fun LiquidGlassBottomTab(
                 color = animatedColor
             )
         }
+
+        if (showBadge) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 8.dp, start = 18.dp)
+                    .size(10.dp)
+                    .clip(CircleShape)
+                    .background(colorResource(R.color.imessage_blue))
+            )
+        }
     }
 }
 
@@ -212,29 +208,16 @@ fun LiquidGlassBottomTab(
  */
 @Composable
 fun LiquidGlassFab(
-    icon: ImageVector,
+    iconResId: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = colorResource(R.color.imessage_blue)
 ) {
-    val backdrop = remember { Backdrop() }
-
     Box(
         modifier = modifier
             .size(56.dp)
             .clip(CircleShape)
-            .drawBackdrop(
-                backdrop = backdrop,
-                shape = { ContinuousCapsule },
-                effects = {
-                    vibrancy()
-                    blur(16.dp.toPx())
-                    lens(20.dp.toPx(), 20.dp.toPx())
-                },
-                onDrawSurface = {
-                    drawRect(containerColor)
-                }
-            )
+            .background(containerColor)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
@@ -243,7 +226,7 @@ fun LiquidGlassFab(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = icon,
+            painter = painterResource(id = iconResId),
             contentDescription = null,
             modifier = Modifier.size(24.dp),
             tint = Color.White
