@@ -142,7 +142,7 @@ fun EmojiPicker(
                                 selectedTabIndex,
                                 matchContentSize = true
                             ),
-                            color = colorResource(R.color.olvid_gradient_light)
+                            color = colorResource(R.color.imessage_blue)
                         )
                     },
                     selectedTabIndex = selectedTabIndex

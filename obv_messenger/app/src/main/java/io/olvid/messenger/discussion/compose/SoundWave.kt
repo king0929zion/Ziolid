@@ -63,9 +63,9 @@ fun SoundWave(sample: SampleAndTicker, stop: () -> Unit) {
                 .requiredSize(24.dp)
                 .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = ripple(bounded = false, radius = 16.dp, color = colorResource(R.color.olvid_gradient_light))
+                    indication = ripple(bounded = false, radius = 16.dp, color = colorResource(R.color.imessage_blue))
                 ) { stop() },
-                tint = colorResource(id = R.color.olvid_gradient_light),
+                tint = colorResource(id = R.color.imessage_blue),
                 painter = painterResource(id = R.drawable.ic_stop),
                 contentDescription = stringResource(
                     id = R.string.button_label_cancel
