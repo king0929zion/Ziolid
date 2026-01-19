@@ -80,4 +80,9 @@
     <color name="imessage_received_text">#000000</color>
     <color name="imessage_sent_background">#007AFF</color>
     <color name="imessage_received_background">#E5E5EA</color>
+
+    <!-- Liquid Glass colors -->
+    <color name="liquid_glass_day">#99FFFFFF</color>
+    <color name="liquid_glass_night">#99000000</color>
+    <color name="liquid_glass_accent">#33FFFFFF</color>
 </resources>
